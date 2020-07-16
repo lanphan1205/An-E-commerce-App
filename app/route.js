@@ -6,7 +6,7 @@ module.exports = function(app, passport){
 
     // Persistent log in 
     app.get("/", function(req, res){
-        if(req.isAuthenticated()) {res.json({username: req.user.username, password: req.user.password});}
+        if(req.isAuthenticated()) {res.render("../public/views/profile", {user: req.user});}
         else {res.render("../public/views/home");}
     });
 

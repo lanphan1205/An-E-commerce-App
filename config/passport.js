@@ -54,6 +54,13 @@ module.exports = function() {
             )  
         }
     ));
+    // When user authenticaticates successfully (either sign up or sign in),
+    // the user's id (created in the db) will be stored in the session on server
+    // and cookie on client so next time the user will be logged in automatically.
+    // this is because server with a working session ID will check against the cookie from 
+    // client's request and authenticate.
+    // if user log out, the session expires and user is no longer authenticated. The 
+    // whole process has to repeat..
     passport.serializeUser(
         function(user, done){
             done(null, user._id); 
@@ -61,5 +68,5 @@ module.exports = function() {
     passport.deserializeUser(
         function(id, done){
             User.findById(id, function(err, user) {done(err, user);});
-        })
+        });
 };

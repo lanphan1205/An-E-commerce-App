@@ -3,19 +3,14 @@
 module.exports = function(app, passport){
     // Routing goes here
 
-
-    // Persistent log in 
-    app.get("/", function(req, res){
-        if(req.isAuthenticated()) {res.render("../public/views/profile", {user: req.user});}
-        else {res.render("../public/views/home");}
-    });
-
+    // Log in
     app.get("/login", function(req, res){
         res.render("../public/views/login", {message: req.flash("error")}); // message is null in the beginning when user has not submit sign up
     });
 
     app.post("/login", 
     passport.authenticate("local-login",{
+        successRedirect: "/profile",
         failureRedirect: "/login", // Combine with GET method to display flash message is a good idea here
         session: true,
         failureFlash: true
@@ -44,6 +39,7 @@ module.exports = function(app, passport){
 
     app.post("/signup", 
     passport.authenticate("local-signup",{
+        successRedirect: "/profile",
         failureRedirect: "/signup",
         session: true,
         failureFlash: true
@@ -56,7 +52,10 @@ module.exports = function(app, passport){
     );
 
     // Handle unmatched route
+    // Persistent log in 
     app.get("*", function(req, res){
-        res.render("../public/views/home");
+        if(req.isAuthenticated()) {res.render("../public/views/profile", {user: req.user});}
+        else {res.render("../public/views/home");}
     });
+    
 };

@@ -54,4 +54,9 @@ module.exports = function(app, passport){
         res.render("../public/views/profile", {user: req.user});
     }
     );
+
+    // Handle unmatched route
+    app.get("*", function(req, res){
+        res.render("../public/views/home");
+    });
 };

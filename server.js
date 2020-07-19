@@ -27,33 +27,21 @@ app.use(passport.session());
 app.use(flash());
 
 
-// set up connection for mongodb
-
-var mongoose = require("./node_modules/mongoose");
-mongoose.connect('mongodb://localhost/my_database', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+// set up connection to MySQL server
+var connection = require("./config/database");
+connection.connect(function(err){
+  if(err) throw err;
+  console.log("Connection opens..");
 });
 
-mongoose.connection.on("connected", function(){
-  console.log("Connection opens ..");
-})
-mongoose.connection.on("error", function(err){
-  console.log("Connection error: ", err);
-})
-mongoose.connection.on("disconnected", function(){
-  console.log("Disconnected ..");
-});
-
-
-// address to start mongo server and mongoshell C:\Program Files\MongoDB\Server\4.2\bin
+// file path to mysql server and command line client C:\Program Files\MySQL\MySQL Server 8.0\bin
 
 
 
 
-require("./config/passport")();
+// require("./config/passport")();
 
-require("./app/route")(app, passport);
+// require("./app/route")(app, passport);
 
 app.listen(3000);
 

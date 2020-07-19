@@ -1,20 +1,10 @@
-// Set up user model here
-var mongoose = require("../node_modules/mongoose");
-var userSchema = new mongoose.Schema({
-    local : {
-        username: "string",
-        password: "string"
-    }
+var mysql = require("mysql");
+var connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    database: "my_database",
+    password: "2000pvlan"
 });
-userSchema.methods.isValidPassword = function(password){
-    if (password === this.local.password) {return true;}
-    else {return false;}
-};
 
-var User = mongoose.model("User", userSchema);
+module.exports = connection;
 
-module.exports = User;
-
-
-
-// Database -> Collection -> Documents

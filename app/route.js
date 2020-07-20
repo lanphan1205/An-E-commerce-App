@@ -17,7 +17,7 @@ module.exports = function(app, passport){
     }),
     function(req, res){
         // res.json({username: req.user.username, password: req.user.password});
-        res.render("../public/views/profile", {user: req.user});
+        res.render("../public/views/profile", {user: JSON.stringify(req.user)});
         // res.send("Log in successful!");
         
     });
@@ -47,14 +47,14 @@ module.exports = function(app, passport){
     function(req, res){
         // if(req.isAuthenticated()) {res.render("../public/views/profile", {user: req.user});}
         // else {res.render("../public/views/signup", {message: req.flash("error")});}
-        res.render("../public/views/profile", {user: req.user});
+        res.render("../public/views/profile", {user: JSON.stringify(req.user)});
     }
     );
 
     // Handle unmatched route
     // Persistent log in 
     app.get("*", function(req, res){
-        if(req.isAuthenticated()) {res.render("../public/views/profile", {user: req.user});}
+        if(req.isAuthenticated()) {res.render("../public/views/profile", {user: JSON.stringify(req.user)});}
         else {res.render("../public/views/home");}
     });
     

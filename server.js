@@ -39,9 +39,9 @@ connection.connect(function(err){
 
 
 
-// require("./config/passport")();
+require("./config/passport")();
 
-// require("./app/route")(app, passport);
+require("./app/route")(app, passport);
 
 app.listen(3000);
 

@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Store</title>
+</head>
+<body>
+    <div>Store welcomes you!</div>
+    <div>
+        <ul class="items">
+            <% store.forEach(item => { %>
+                <div class="item" style="padding: 10px;">
+                    <li><%= item.itemId %></li>
+                    <form action="/messages" method="POST" style="display: none" class="message">
+                        <input value="<%=item.itemId %>" name="itemId" style="display: none">
+                        <input type="text" style="color:#888;" value="Message" name="itemMessage" class="text-decor" height="100px" width="300px">
+                        <input type="submit" value="Send">
+                    </form>
+                </div>
+            <% }) %>
+        </ul>
+    </div>
+    <script>
+        var items= document.getElementsByClassName("item")
+        console.log(items)
+        Array.from(items).forEach(item => {
+            var form = item.getElementsByClassName("message")[0]
+            // console.log(form)
+            // console.log(form.getElementsByClassName("text-decor"))
+            item.addEventListener("mouseover", function() {
+                form.setAttribute("style", "")
+            })
+            item.addEventListener("mouseout", function() {
+                form.setAttribute("style", "display: none")
+            })
+            
+        })
+        var inputs = document.getElementsByClassName("text-decor")
+        Array.from(inputs).forEach(input => {
+            input.addEventListener("click", function() {
+                input.setAttribute("value", "")
+                input.setAttribute("style", "color: #000")
+            })
+        })
+
+    </script>
+</body>
+</html>

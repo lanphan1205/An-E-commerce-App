@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="container" style="box-sizing: border-box;">
+        <div class="message-preview" style="float: left; width: 25%; overflow: auto">
+            <div>Items</div>
+        </div>
+        <div class="message-chat" style="width: 50%; overflow: auto">
+            <div>chat message</div>
+            <div class="chat-box"></div>
+            <form action="/messages" method="POST" name="sendMessage" style="display: none;">
+                <input name="itemMessage" type="text" value="Type message..">
+                <input name="itemId" style="display: none;" value="">
+                <input name="username" style="display: none;" value="">
+                <input type="submit" value="Send">
+            </form>
+        </div>
+    </div>
+    <script type='text/javascript'>
+        var socket = io()
+        var sendMessage = document.sendMessage // form
+
+        // Input Messages Preview
+        var messagesPreview= <%-JSON.stringify(messagesPreview)%>
+        console.log(messagesPreview)
+        var div_0 = document.getElementsByClassName("message-preview")[0]
+        // console.log(div_0)
+        if(messagesPreview.length > 0) {
+            messagesPreview.forEach((message, i)=> {
+            var newHTML = `
+                <a href="/messages/${messagesPreview[i].item_id}" style="text-decoration: none;" >
+                    <div style="background-color: lightblue;" href="/messages/${messagesPreview[i].item_id}">
+                    <p class="itemName">${messagesPreview[i].item_id}</p>
+                    <p class="shortMessage">${messagesPreview[i].content}</p>
+                    </div>
+                </a>`
+            div_0.insertAdjacentHTML("beforeend", newHTML)
+            })
+        } else {
+            var newHTML = `<div> You have no items here </div>`
+            div_0.insertAdjacentHTML("beforeend", newHTML)
+        }
+
+        // Input Messages
+        var messages = <%-JSON.stringify(messages)%> //Unupdated messages
+        // console.log(messages)
+        var div_1 = document.getElementsByClassName("message-chat")[0]
+        var chatBox = div_1.getElementsByClassName("chat-box")[0]
+        // might need to create function inputMessages here
+        var inputMessages = function(messages) {
+            console.log(messages)
+            messages.forEach((message, i) => {
+                var newHTML = `<div style="background-color: lightgrey; text-align: left; border-radius: 10px;">
+                                <span>${message.sender}</span>
+                                <p>${message.content}</p>
+                                <span>${message.timestamp}</span>
+                                </div>`
+                chatBox.insertAdjacentHTML("beforeend", newHTML)
+            })
+        } 
+        // Need something like 2-way data binding here
+        var resetForm = function() {
+            sendMessage.itemMessage.setAttribute("value", "")
+        }
+        if (messages !== null) {
+            sendMessage.setAttribute("style", "") // show the form
+            sendMessage.itemId.setAttribute("value", messages[0].itemId)
+            sendMessage.username.setAttribute("value", messages[0].username)
+            inputMessages(messages)
+        } else {
+            // this happens when query just the messagePreview
+            var newHTML = `<div> If you have messages, click on the left to see</div>`
+            div_1.insertAdjacentHTML("beforeend", newHTML)
+        }
+
+        // This code must run only when messages !== null
+        if(messages !== null) {
+            sendMessage.addEventListener("submit", function(event) {
+            event.preventDefault()
+            var message = {
+                username: sendMessage.username.value, // Refer to value attribute here, but the logic is not correct here
+                itemId: sendMessage.itemId.value,
+                itemMessage: sendMessage.itemMessage.value
+            }
+            console.log(message) 
+            socket.emit("message added", message)
+            // resetForm()
+            })
+            socket.on("refresh message", function(messages) {
+                chatBox.innerHTML = ``
+                console.log(messages)
+                inputMessages(messages) // Updated messages
+            })
+            // on each rendering of this file the previous setInterval is closed. in other words, the interval is closed if we get to another route
+            setInterval(function(){
+            var itemId = sendMessage.itemId.value
+            // console.log(itemId)
+            socket.emit("check message", itemId) // This in turn emit "refresh message" 
+            console.log("Check for message updates from other users")
+            }, 5000);
+            
+        }
+    </script>
+</body>
+</html>

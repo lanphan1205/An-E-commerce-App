@@ -6,8 +6,26 @@
 </head>
 <body>
     <div>
-        <%= user %>
+        <p>Welcome, <strong><%= user.username %></strong>!</p> 
     </div>
+    <br>
+    <div>
+        <a href="/sell" style="text-decoration: none;">Sell</a>
+    </div>
+    <br>
+    <div>
+        <a href="/store" style="text-decoration: none;">See what others are selling</a>
+    </div>
+    <br>
+    <div>
+        <a href="/view-listing" style="text-decoration: none;">View your listing</a>
+    </div>
+    <br>
+    <div>
+        <a href="/messages" style="text-decoration: none;">Messages</a>
+    </div>
+    <br>
+
     <form action="/logout" method="GET">
         <input type="submit" value="Log out">
     </form>

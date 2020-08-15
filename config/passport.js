@@ -23,7 +23,7 @@ module.exports = function() {
                         var findQuery = `select * from users where username = ?`;
                         connection.query(findQuery, [username], function(err, results){
                             if(err) {return done(err)}
-                            console.log("user signed in");
+                            // console.log("user signed in");
                             var user = results[0];
                             return done(null, user);
                         });
@@ -50,7 +50,7 @@ module.exports = function() {
                 if(results[0].count == 1) {return done(null, false, req.flash("error", "username has been taken"));}
                 // username not taken
                 if (results[0].count == 0) {
-                    var token_id = CryptoJS.AES.encrypt(username, password).toString();
+                    var token_id = CryptoJS.AES.encrypt(username, password).toString(); // each time the token_id is encrypted to a different value, from the same input
                     console.log(token_id);
                     var insertQuery = `insert into users(username, pword, token_id)
                     values (?, ?, ?)`;
@@ -61,7 +61,7 @@ module.exports = function() {
                             var findQuery = `select * from users where username = ?`;
                             connection.query(findQuery, [username], function(err, results){
                                 if(err) {return done(err);}
-                                console.log("user signed up");
+                                // console.log("user signed up");
                                 var user = results[0]; // user data in RowDataPacket Object form
                                 return done(null, user); // pass user data query from db to req.user
                             });
@@ -79,7 +79,7 @@ module.exports = function() {
     // whole process has to repeat..
     passport.serializeUser(
         function(user, done){
-            console.log("user serialized")
+            // console.log("user serialized");
             done(null, user.token_id); 
         });
     passport.deserializeUser(
@@ -87,7 +87,7 @@ module.exports = function() {
             var findQuery = `select * from users where token_id = ?`;
             connection.query(findQuery, [id], function(err, results){
                 if(err) {return done(err);}
-                console.log("user deserialized");
+                // console.log("user deserialized");
                 var user = results[0];
                 done(null, user);
             });

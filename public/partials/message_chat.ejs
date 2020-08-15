@@ -1,0 +1,27 @@
+<div class="message-chat" style="width: 50%; overflow: auto">
+    <div>chat message</div>
+    <% var i; %>
+    <% for(i = 1; i < 3; i ++) { %>
+        <!-- Do a check here to add seperate css property to current user and his chat friend -->
+    <div class="chatbox" style="background-color: lightgrey; text-align: left; border-radius: 10px;">
+        <span>user</span>
+        <p>Message <%= i %></p>
+        <span>insert time here</span>
+    </div>
+    <form action="" >
+        <input type="text" value="Type message..">
+        <input type="submit" value="Send">
+    </form>
+    <% } %>
+    
+    <!-- <div class="chatbox-seller" style="background-color: lightgrey; text-align: left; border-radius: 10px;">
+        <span>user1</span>
+        <p>Hi you wanna buy this?</p>
+        <span>insert time here</span>
+    </div>
+    <div class="chatbox-buyer" style="background-color: darkgray; text-align: right; border-radius: 10px;">
+        <span>user2</span>
+        <p>Oh yes! I wanna ask about..</p>
+        <span>insert time here</span>
+    </div> -->
+</div>

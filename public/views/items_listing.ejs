@@ -1,0 +1,15 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Listing</title>
+</head>
+<body>
+    <p>User's listing will be shown here: </p>
+    <ul class="userItems">
+        <% items.forEach(item => { %>
+            <li><%= item.itemId %></li>
+        <% }) %>
+    </ul>
+</body>
+</html>

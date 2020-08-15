@@ -6,5 +6,7 @@ var connection = mysql.createConnection({
     password: "2000pvlan"
 });
 
-module.exports = connection;
+
+module.exports= connection;
+
 

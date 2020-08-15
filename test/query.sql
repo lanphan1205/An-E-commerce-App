@@ -10,10 +10,10 @@ token_id varchar(255)
 );
 
 create table items(
-id int auto_increment primary KEY,
+id varchar(255) primary KEY,
 user_id int,
 price decimal(10,2),
-imageurl varchar(255),
+image_ref varchar(255),
 category varchar(255),
 conditn varchar(255),
 story varchar(255),
@@ -22,9 +22,15 @@ payment varchar(255),
 foreign key(user_id) references users(id)
 );
 
+create table item_photos(
+item_id varchar(255),
+photos varchar(255),
+foreign key (item_id) references items(id)
+);
+
 create table messages(
 user_id int,
-item_id int,
+item_id varchar(255),
 content varchar(255),
 foreign key(user_id) references users(id),
 foreign key(item_id) references items(id)
@@ -32,7 +38,8 @@ foreign key(item_id) references items(id)
 
 create table likes(
 user_id int,
-item_id int,
+item_id varchar(255),
 foreign key(user_id) references users(id),
 foreign key(item_id) references items(id)
 );
+

@@ -2,28 +2,37 @@
 var async = require("async");
 // var util = require("util");
 // set up connection to MySQL server
-var connection = require("./config/database");
+var mysql = require("mysql");
+var connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    port: "3306",
+    database: "my_database",
+    password: "2000pvlan"
+});
+
 connection.connect(function(err){
     if(err) throw err;
     console.log("Connection to MySQL opens..");
 });
-// set up connection with Mongo Server
-var mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost/my_database', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-mongoose.connection.on("connected", function(){
-    console.log("Connection to Mongo opens ..");
-})
-mongoose.connection.on("error", function(err){
-    console.log("Connection to Mongo error: ", err);
-})
-mongoose.connection.on("disconnected", function(){
-    console.log("Disconnected from Mongo ..");
-});
 
-var items = require("./model/items");
+// set up connection with Mongo Server
+// var mongoose = require("mongoose");
+// mongoose.connect('mongodb://localhost/my_database', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
+// mongoose.connection.on("connected", function(){
+//     console.log("Connection to Mongo opens ..");
+// })
+// mongoose.connection.on("error", function(err){
+//     console.log("Connection to Mongo error: ", err);
+// })
+// mongoose.connection.on("disconnected", function(){
+//     console.log("Disconnected from Mongo ..");
+// });
+
+// var items = require("./model/items");
 // console.log("Hi!")
 // var messages = []
 // var items = []
@@ -61,9 +70,9 @@ var items = require("./model/items");
 //         function(err, docs) {console.log(docs)}
 //     )
 // }
-items.find({})
+// items.find({})
 
-.then(function(docs) {console.log(docs)}).catch(err => {console.log(err)})
+// .then(function(docs) {console.log(docs)}).catch(err => {console.log(err)})
 
     
 // })
